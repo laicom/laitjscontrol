@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>阿赖目录树控件应用示例--动态加载树前台页面</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script src="alai_tree.js" language="JavaScript"></script>
+</head>
+<body>
+<script language="JavaScript">
+var images=new alai_imagelist()
+images.path="images/"
+images.add("folderclose","folder")
+images.add("hfile","file")
+images.add("face")
+images.add("angry")
+/*
+	images.add("plus_m","expand")
+	images.add("plus_top","expand_top")
+	images.add("plus_end","expand_end")
+	images.add("minus_m","collapse")
+	images.add("minus_top","collapse_top")
+	images.add("minus_end","collapse_end")
+	images.add("branch","leaf")
+	images.add("branch_end","twig")
+	images.add("vline","line")
+	images.add("blank")
+*/
+//如果要显示连接线只须将上面注释去掉，将下面参数16改成0即可
+var tree=new alai_tree(images,16)
+tree.onclick=function(srcNode)
+{
+	if(!srcNode.hasChild && srcNode.icon.src==images.item["folder"].src)
+	{
+		//动态加载子节点的代码：
+		ifrLoad.location="tree_load.asp?id="+srcNode.getKey().replace("n","");
+	}
+	return true;
+}
+</script>
+<iframe id="ifrLoad" style="width:0;height:0" src="tree_load.asp?id=-1"></iframe>
+
+
+
+ <!--  ************以上是构建动态目录树所需的代码，以下只是一些说明 ***************   -->
+
+
+<p><font color="#CC0000">*******本例需要在IIS环境下运行才能看到动态加载的目录树显示于上面*******</font></p>
+<p><strong><font size="4">阿赖目录树控件应用示例 -- 通过ASP与ACCESS数据库动态加载节点</font></strong></p>
+<p>动态添加节点的方法/原理：</p>
+<p>显示目录树的页面(前台页面)使用iframe(高度宽度设为0，所以是不可见的)，当页面加载及单击节点时通过iframe调用(加载)另一个ASP页面(后台程序)，通过ASP访问数据库获得节点信息，生成添加节点的代码。得益于阿赖目录树控件程序的强大与灵活，前台与后台的程序都相当的简单。</p>
+<p>本例包括一个前台文件：tree_exam6.htm 和后台文件：tree_load.asp，以及一个数据库tree.mdb 在教程和程序的下载包里可以找到。<a href="http://www.9499.net?go=downtc" target="_blank">下载<img src="images/misc_arrow.gif" width="21" height="12" border="0"></a></p>
+<p>数据表结构(前三个字段必填，后三个字段允许为空)：</p>
+<p>id - 自动编号类型</p>
+<p>parentid - 父节点的id，如果是第一级节点，设为-1</p>
+<p>text - 节点文本</p>
+<p>exeCategory - 节点功能类型，取值为js 或 url</p>
+<p>exeArgv - 功能参数（可参考目录树对象参考的add方法的参数说明）</p>
+<p>icon - 节点图标</p>
+<p>&nbsp;</p>
+<p>一些提示：本例中给每个节点设了一个键(key)值取 &quot;n&quot;+id的形式，即其id为1,key则为n1，我们就可以通过tree.nodes[&quot;n1&quot;]的形式来访问节点了。</p>
+<hr>
+<p align="center">copywrite by 赖国欣 2003/7 All right reserved</p>
+<p align="center">Email: <a href="mailto:a@lai.com.cn">a@lai.com.cn</a> website: 
+<a href="http://www.9499.net">http://www.9499.net</a></p>
+</body>
+</html>
